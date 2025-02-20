@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sport Overlay</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+            background: rgba(0, 0, 0, 0);
+        }
+        #overlay {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+        }
+        .team {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .score {
+            font-size: 30px;
+            margin: 10px 0;
+        }
+        .timer {
+            font-size: 20px;
+            color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="overlay">
+        <div class="team" id="teamA">Csapat A</div>
+        <div class="score" id="scoreA">0</div>
+        <span style="font-size: 20px;">VS</span>
+        <div class="score" id="scoreB">0</div>
+        <div class="team" id="teamB">Csapat B</div>
+        <div class="timer" id="timer">00:00</div>
+    </div>
+
+    <script>
+        const SHEET_ID = "REPLACE_WITH_YOUR_SHEET_ID";
+        const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+
+        async function fetchData() {
+            try {
+                const response = await fetch(SHEET_URL);
+                const text = await response.text();
+                const json = JSON.parse(text.substring(47, text.length - 2));
+                const rows = json.table.rows;
+                
+                if (rows && rows.length > 0) {
+                    document.getElementById("teamA").innerText = rows[0].c[0]?.v || "N/A";
+                    document.getElementById("teamB").innerText = rows[0].c[1]?.v || "N/A";
+                    document.getElementById("scoreA").innerText = rows[0].c[2]?.v || "0";
+                    document.getElementById("scoreB").innerText = rows[0].c[3]?.v || "0";
+                    document.getElementById("timer").innerText = rows[0].c[4]?.v || "00:00";
+                }
+            } catch (error) {
+                console.error("Hiba a Google Sheets beolvasásakor", error);
+            }
+        }
+
+        setInterval(fetchData, 3000);
+        fetchData();
+    </script>
+</body>
+</html>
