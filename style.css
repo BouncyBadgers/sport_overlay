@@ -137,3 +137,10 @@
   border: 10px solid;
   border-color: #dcf529;
 }
+
+.hidden {
+    opacity: 0 !important;
+}
+.visible {
+    opacity: 1 !important;
+}
