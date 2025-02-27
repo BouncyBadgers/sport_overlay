@@ -41,7 +41,7 @@
                     document.getElementById("setTimer").innerText = rows[0].c[5]?.v || "00:00";
 
                     // Overlay megjelenítés / elrejtés (F1 cella alapján)
-                    const overlayVisibility = rows[0].c[5]?.v || "1"; // F1 oszlop
+                    const overlayVisibility = rows[0].c[6]?.v || "1"; // F1 oszlop
                     const overlay = document.getElementById("overlay");
 
                     if (overlayVisibility === "1") {
