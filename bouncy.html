@@ -35,8 +35,8 @@
                 if (rows && rows.length > 0) {
                     document.getElementById("teamA").innerText = rows[0].c[0]?.v || "N/A";
                     document.getElementById("teamB").innerText = rows[0].c[1]?.v || "N/A";
-                    document.getElementById("scoreA").innerText = rows[3].c[0]?.v || "0";
-                    document.getElementById("scoreB").innerText = rows[3].c[1]?.v || "0";
+                    document.getElementById("scoreA").innerText = rows[0].c[2]?.v || "0";
+                    document.getElementById("scoreB").innerText = rows[0].c[3]?.v || "0";
                 }
             } catch (error) {
                 console.error("Hiba a Google Sheets beolvasásakor", error);
