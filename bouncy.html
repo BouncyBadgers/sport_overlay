@@ -21,5 +21,30 @@
         <div class="match-timer-wrapper"><div class="match-timer">3:00</div></div>
       </div>
     </div>
+    <script>
+        const SHEET_ID = "1Om0aNbewzN43JPQD2tH9F7BlbdzYJDrtPk27BqnGxBs";
+        const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+
+        async function fetchData() {
+            try {
+                const response = await fetch(SHEET_URL);
+                const text = await response.text();
+                const json = JSON.parse(text.substring(47, text.length - 2));
+                const rows = json.table.rows;
+                
+                if (rows && rows.length > 0) {
+                    document.getElementById("teamA").innerText = rows[0].c[0]?.v || "N/A";
+                    document.getElementById("teamB").innerText = rows[0].c[1]?.v || "N/A";
+                    document.getElementById("scoreA").innerText = rows[3].c[0]?.v || "0";
+                    document.getElementById("scoreB").innerText = rows[3].c[1]?.v || "0";
+                }
+            } catch (error) {
+                console.error("Hiba a Google Sheets beolvasásakor", error);
+            }
+        }
+
+        setInterval(fetchData, 1000);
+        fetchData();
+    </script>
   </body>
 </html>
