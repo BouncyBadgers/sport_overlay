@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="overlay" class="hidden" id="overlay">
+    <div class="overlay">
       <div class="teams-and-score">
         <div class="text-wrapper" id="teamA">Badgers 1</div>
         <div class="scores">
@@ -15,10 +15,6 @@
           <div class="score-away" id="scoreB">20</div>
         </div>
         <div class="text-wrapper" id="teamB">Badgers 2</div>
-      </div>
-      <div class="timers">
-        <div class="match-frame"><div class="match-timer" id="matchTimer">15:00</div></div>
-        <div class="set-frame"><div class="match-timer" id="setTimer">3:00</div></div>
       </div>
     </div>
     <script>
@@ -35,35 +31,15 @@
                 if (rows && rows.length > 0) {
                     document.getElementById("teamA").innerText = rows[0].c[0]?.v || "N/A";
                     document.getElementById("teamB").innerText = rows[0].c[1]?.v || "N/A";
-                    document.getElementById("scoreA").innerText = rows[0].c[2]?.v || "0";
-                    document.getElementById("scoreB").innerText = rows[0].c[3]?.v || "0";
-                    document.getElementById("matchTimer").innerText = formatTime(rows[0].c[4]?.v);
-                    document.getElementById("setTimer").innerText = formatTime(rows[0].c[5]?.v);
-
-                    // Overlay megjelenítés / elrejtés (F1 cella alapján)
-                    const overlayVisibility = rows[0].c[6]?.v || "1"; // F1 oszlop
-                    const overlay = document.getElementById("overlay");
-
-                    if (overlayVisibility === "1") {
-                        overlay.classList.remove("hidden");
-                        overlay.classList.add("visible");
-                    } else {
-                        overlay.classList.remove("visible");
-                        overlay.classList.add("hidden");
-                    }
+                    document.getElementById("scoreA").innerText = rows[3].c[0]?.v || "0";
+                    document.getElementById("scoreB").innerText = rows[3].c[1]?.v || "0";
                 }
             } catch (error) {
                 console.error("Hiba a Google Sheets beolvasásakor", error);
             }
-            function formatTime(seconds) {
-              let minutes = Math.floor(seconds / 60);
-              let sec = seconds % 60;
-              return minutes + ":" + (sec < 10 ? "0" : "") + sec;
-}
-
         }
 
-        setInterval(fetchData, 500);
+        setInterval(fetchData, 1000);
         fetchData();
     </script>
   </body>
